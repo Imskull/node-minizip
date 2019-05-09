@@ -16,8 +16,9 @@ NAN_METHOD(Zip) {
     return;
   }
 
-  std::string src_dir(*(v8::String::Utf8Value(info[0])));
-  std::string dest_dir(*(v8::String::Utf8Value(info[1])));
+  std::string src_dir = *Nan::Utf8String(info[0]);
+  std::string dest_dir= *Nan::Utf8String(info[1]);
+
   Nan::Callback* callback = new Nan::Callback(info[2].As<v8::Function>());
 
   Nan::AsyncQueueWorker(new zip::ZipAsyncWorker(src_dir, dest_dir, callback));
@@ -34,8 +35,8 @@ NAN_METHOD(Unzip) {
     return;
   }
 
-  std::string zip_file(*(v8::String::Utf8Value(info[0])));
-  std::string dest_dir(*(v8::String::Utf8Value(info[1])));
+  std::string zip_file = *Nan::Utf8String(info[0]);
+  std::string dest_dir = *Nan::Utf8String(info[1]);
 
   Nan::Callback* callback = new Nan::Callback(info[2].As<v8::Function>());
 
@@ -47,10 +48,9 @@ NAN_METHOD(Unzip) {
 }  // namespace
 
 NAN_MODULE_INIT(init) {
-  Nan::Set(target, Nan::New("zip").ToLocalChecked(),
-                 Nan::New<v8::FunctionTemplate>(Zip)->GetFunction());
-  Nan::Set(target, Nan::New("unzip").ToLocalChecked(),
-                 Nan::New<v8::FunctionTemplate>(Unzip)->GetFunction());
+  Nan::Set(target, Nan::New("zip").ToLocalChecked(), Nan::GetFunction(Nan::New<v8::FunctionTemplate>(Zip)).ToLocalChecked());
+
+  Nan::Set(target, Nan::New("unzip").ToLocalChecked(), Nan::GetFunction(Nan::New<v8::FunctionTemplate>(Unzip)).ToLocalChecked());
 }
 
 NODE_MODULE(node_minizip, init)

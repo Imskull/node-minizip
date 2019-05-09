@@ -23,9 +23,10 @@
     "url": "https://github.com/hokein/node-minizip/issues"
   },
   "dependencies": {
-    "nan": "^2.0.5"
+    "nan": "^2.13.2"
   },
   "devDependencies": {
+    "electron-rebuild": "^1.8.4",
     "mocha": "1.21.4"
   },
   "scripts": {
